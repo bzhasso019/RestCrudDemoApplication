@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+  <changeSet id="table1_0_0" author="Azamat">
+    <tagDatabase tag="1_0_0"/>
+  </changeSet>
+
+  <changeSet id="table2_0_0" author="Azamat">
+    <tagDatabase tag="2_0_0"/>
+  </changeSet>
+
+  <changeSet author="Azamat" id="table3_0_0">
+    <tagDatabase tag="3_0_0"/>
+  </changeSet>
+
+  <include file="2_0_0/create_user.sql" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

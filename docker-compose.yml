@@ -1,0 +1,36 @@
+version: '3'
+services:
+  database:
+    image: postgres:16-alpine
+    container_name: app-database
+    ports:
+      - "6543:5432"
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 19990227
+    volumes:
+      - ./src/main/resources/db/postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d test" ]
+      interval: 5s
+      timeout: 2s
+      retries: 3
+
+  liquibase:
+    image: liquibase/liquibase:latest
+    container_name: app-liquibase
+    volumes:
+      - ./src/main/resources/db/changelog:/liquibase/changelog
+    environment:
+      LIQUIBASE_SEARCH_PATH: /liquibase/changelog
+    depends_on:
+      database:
+        condition: service_healthy
+    command:
+      - --driver=org.postgresql.Driver
+      - --url=jdbc:postgresql://database:5432/test
+      - --username=postgres
+      - --password=19990227
+      - --changelog-file=master.xml
+      - update
